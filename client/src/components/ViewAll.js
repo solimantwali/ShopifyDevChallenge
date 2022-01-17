@@ -10,15 +10,15 @@ import {
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
 
-const ViewAll = () => {
-  const [imgList, setImgList] = useState([]);
+const ViewAll = ({ imgList }) => {
+  // const [imgList, setImgList] = useState([]);
   //console.log(imgList.length);
-  useEffect(() => {
-    axios.get('/api/image/all').then((response) => {
-      setImgList(response.data);
-      console.log(imgList.length);
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get('/api/image/all').then((response) => {
+  //     setImgList(response.data);
+  //     console.log(imgList.length);
+  //   });
+  // }, []);
 
   return (
     <Container

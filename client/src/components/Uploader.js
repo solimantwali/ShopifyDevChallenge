@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Container, Box, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { DropzoneDialog } from 'material-ui-dropzone';
@@ -12,18 +12,31 @@ const Input = styled('input')({
 });
 
 const Uploader = () => {
+  const updateList = () => {
+    axios.get('/api/image/all').then((response) => {
+      setMyImgList(response.data);
+      //console.log(imgList.length);
+    });
+  };
+  useEffect(() => {
+    axios.get('/api/image/all').then((response) => {
+      updateList();
+    });
+  }, []);
   //const classes = useStyles();
   const [show, setShow] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [progress, setProgress] = useState(null);
   const [imageId, setImageId] = useState(null);
   const [currentlyUploading, setCurrentlyUploading] = useState(false);
+  const [myimgList, setMyImgList] = useState([]);
 
   const handleFile = ([file]) => file && setImageFile(file);
   const handleDelete = () => setImageFile(null);
   const handleSubmit = ([file]) => {
     const fd = new FormData();
     fd.append('image', file, file.name);
+
     axios
       .post('api/image/upload', fd, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -40,6 +53,7 @@ const Uploader = () => {
         setImageFile(null);
         setCurrentlyUploading(false);
         setShow(false);
+        updateList();
       })
       .catch((err) => {
         if (err.response.status === 400) {
@@ -77,7 +91,7 @@ const Uploader = () => {
         </Typography>
       </Box>
 
-      <Stack direction="row" alignItems="center" spacing={2}>
+      {/* <Stack direction="row" alignItems="center" spacing={2}>
         <label htmlFor="contained-button-file">
           <Input
             accept="image/*"
@@ -99,7 +113,7 @@ const Uploader = () => {
             <PhotoCamera />
           </IconButton>
         </label>
-      </Stack>
+      </Stack> */}
       {/* shitty version here */}
       <Button
         variant="outlined"
@@ -129,13 +143,25 @@ const Uploader = () => {
         }}
         onSave={handleSubmit}
       />
-      <Box height={200}>
+      <Box
+        height={200}
+        sx={{
+          bgcolor: 'background.paper',
+          boxShadow: 1,
+          mt: 2,
+          mx: 0,
+          borderRadius: 2,
+          p: 3,
+          border: 3,
+          borderColor: 'primary.main',
+        }}
+      >
         {imageId ? (
           <div>
             <img
               src={`api/image/imageCall/${imageId}`}
               alt="Sample Text"
-              height={100}
+              height={200}
             />
             <a href={`api/image/imageCall/${imageId}`} target="_blank">
               link
@@ -145,9 +171,16 @@ const Uploader = () => {
           <Typography variant="body1">no picture uploaded yet</Typography>
         )}
       </Box>
-      <Button variant="contained" color="secondary">
+      <Button
+        variant="contained"
+        color="secondary"
+        sx={{
+          mt: 3,
+        }}
+      >
         Upload
       </Button>
+      <ViewAll imgList={myimgList} />
     </Container>
   );
 };

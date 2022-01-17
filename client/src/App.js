@@ -7,6 +7,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import themeOptions from './themeOptions';
 import NavBar from './components/NavBar';
 import ViewAll from './components/ViewAll';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 //const theme = createTheme(themeOptions);
 const theme = createTheme({
@@ -26,7 +28,6 @@ function App() {
     <ThemeProvider theme={theme}>
       <NavBar />
       <Uploader />
-      <ViewAll />
     </ThemeProvider>
   );
 }

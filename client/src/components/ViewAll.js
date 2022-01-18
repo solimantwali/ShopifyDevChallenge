@@ -14,9 +14,10 @@ const ViewAll = ({ imgList }) => {
   // const [imgList, setImgList] = useState([]);
   //console.log(imgList.length);
   // useEffect(() => {
+  //   setImgList(img_list);
   //   axios.get('/api/image/all').then((response) => {
   //     setImgList(response.data);
-  //     console.log(imgList.length);
+  //     //     console.log(imgList.length);
   //   });
   // }, []);
 

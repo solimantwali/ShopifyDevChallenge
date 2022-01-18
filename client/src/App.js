@@ -24,10 +24,24 @@ const theme = createTheme({
 });
 
 function App() {
+  const [allImgs, setAllImgs] = useState([]);
+
+  const updateAllImgs = () => {
+    axios.get('/api/image/all').then((response) => {
+      setAllImgs(response.data);
+      //console.log(imgList.length);
+    });
+  };
+
+  useEffect(() => {
+    updateAllImgs();
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
-      <Uploader />
+      <Uploader refresh={setAllImgs} />
+      <ViewAll imgList={allImgs} />
     </ThemeProvider>
   );
 }

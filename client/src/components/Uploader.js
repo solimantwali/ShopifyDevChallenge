@@ -11,18 +11,18 @@ const Input = styled('input')({
   display: 'none',
 });
 
-const Uploader = () => {
+const Uploader = ({ refresh }) => {
   const updateList = () => {
     axios.get('/api/image/all').then((response) => {
-      setMyImgList(response.data);
+      refresh(response.data);
       //console.log(imgList.length);
     });
   };
-  useEffect(() => {
-    axios.get('/api/image/all').then((response) => {
-      updateList();
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get('/api/image/all').then((response) => {
+  //     refresh(response.data);
+  //   });
+  // }, []);
   //const classes = useStyles();
   const [show, setShow] = useState(false);
   const [imageFile, setImageFile] = useState(null);
@@ -180,7 +180,7 @@ const Uploader = () => {
       >
         Upload
       </Button>
-      <ViewAll imgList={myimgList} />
+      {/* <ViewAll imgList={myimgList} /> */}
     </Container>
   );
 };

@@ -10,6 +10,7 @@ import ViewAll from './components/ViewAll';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Welcome from './components/Welcome';
 
 //const theme = createTheme(themeOptions);
 const theme = createTheme({
@@ -48,6 +49,7 @@ function App() {
             path="/"
             element={
               <div>
+                <Welcome />
                 <Uploader refresh={setAllImgs} />
                 <ViewAll imgList={allImgs} />
               </div>

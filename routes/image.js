@@ -38,6 +38,7 @@ const storage = new GridFsStorage({
         const fileInfo = {
           filename: filename,
           bucketName: 'images',
+          metadata: { ogName: file.originalname },
         };
         // resolve properties to add to the new file document in db
         resolve(fileInfo);

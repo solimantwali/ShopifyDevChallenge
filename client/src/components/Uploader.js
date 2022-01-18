@@ -32,12 +32,32 @@ const Uploader = ({ refresh }) => {
   const [currentlyUploading, setCurrentlyUploading] = useState(false);
   const [myimgList, setMyImgList] = useState([]);
 
-  const handleFile = ([file]) => file && setImageFile(file);
+  const handleFile = ([file]) => {
+    //console.log('handleFile below:');
+    //console.log('file: ', file);
+    //console.log(file && setImageFile(file));
+    if (file) {
+      //console.log('file exists');
+      const myFile = file;
+      setImageFile(myFile);
+      //console.log('imagefile:', imageFile);
+    }
+    //setImageFile(file).then(console.log('imagefile:', imageFile));
+  };
+
+  // const handleFile = (e) => {
+  //   console.log('yo', e.target);
+  //   if (e) {
+  //     setImageFile(e.target.files);
+  //   }
+  // };
   const handleDelete = () => setImageFile(null);
+  const fileList = document.getElementById('fileList');
   const handleSubmit = ([file]) => {
+    console.log('hi', file);
     const fd = new FormData();
     fd.append('image', file, file.name);
-
+    console.log(fd);
     axios
       .post('api/image/upload', fd, {
         onUploadProgress: (progressEvent) => {
@@ -49,6 +69,7 @@ const Uploader = ({ refresh }) => {
         },
       })
       .then(({ data }) => {
+        console.log('data:', data);
         setImageId(data);
         setImageFile(null);
         setCurrentlyUploading(false);
@@ -73,6 +94,7 @@ const Uploader = ({ refresh }) => {
         setShow(false);
       });
   };
+
   return (
     <Container
       sx={{
@@ -94,31 +116,54 @@ const Uploader = ({ refresh }) => {
         </Typography>
       </Box>
 
-      {/* <Stack direction="row" alignItems="center" spacing={2}>
+      <Stack direction="row" alignItems="center" spacing={2}>
         <label htmlFor="contained-button-file">
           <Input
             accept="image/*"
             id="contained-button-file"
             multiple
             type="file"
+            onChange={async (e) => {
+              console.log('e.target.files', e.target.files);
+              // const a = e.target.files[0].name;
+              // console.log('a', a);
+              // const b = e.target.files[0]
+              // let fileArr = [];
+              // fileArr.push(e.target.files[0]);
+              // console.log(fileArr.length);
+              await handleFile(e.target.files);
+              // setImageFile(e.target.files[0]);
+              console.log(imageFile);
+            }}
           />
           <Button variant="outlined" component="span">
-            Select File
+            Select A File
           </Button>
         </label>
-        <label htmlFor="icon-button-file">
-          <Input accept="image/*" id="icon-button-file" type="file" />
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <PhotoCamera />
-          </IconButton>
-        </label>
-      </Stack> */}
+      </Stack>
+
+      <div>
+        <Box
+          sx={{
+            bgcolor: 'background.paper',
+            boxShadow: 1,
+            mt: 2,
+            mx: 0,
+            borderRadius: 2,
+            p: 3,
+            border: 3,
+            borderColor: 'primary.main',
+          }}
+        >
+          {imageFile ? (
+            <img height={200} src={URL.createObjectURL(imageFile)} />
+          ) : (
+            'no images uploaded'
+          )}
+        </Box>
+      </div>
       {/* shitty version here */}
-      <Button
+      {/* <Button
         variant="outlined"
         color="secondary"
         onClick={() => setShow(true)}
@@ -133,8 +178,8 @@ const Uploader = ({ refresh }) => {
         acceptedFiles={['image/jpeg', 'image/png']}
         maxFileSize={5000000}
         filesLimit={1}
-        showFileNamesInPreview={false}
-        showFileNames={false}
+        showFileNamesInPreview={true}
+        showFileNames={true}
         dropzoneText={'Drag and drop file here or click icon to browse:'}
         getFileAddedMessage={() => 'file added!'}
         getFileRemovedMessage={() => 'file removed!'}
@@ -145,8 +190,8 @@ const Uploader = ({ refresh }) => {
           else return 'invalid file type';
         }}
         onSave={handleSubmit}
-      />
-      <Box
+      /> */}
+      {/* <Box
         height={200}
         sx={{
           bgcolor: 'background.paper',
@@ -173,16 +218,22 @@ const Uploader = ({ refresh }) => {
         ) : (
           <Typography variant="body1">no picture uploaded yet</Typography>
         )}
-      </Box>
+      </Box> */}
       <Button
         variant="contained"
         color="secondary"
         sx={{
           mt: 3,
         }}
+        type="submit"
+        onClick={(e) => {
+          // console.log(e.target.files);
+          handleSubmit([imageFile]);
+        }}
       >
-        Upload
+        Submit
       </Button>
+
       {/* <ViewAll imgList={myimgList} /> */}
     </Container>
   );

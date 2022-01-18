@@ -25,20 +25,23 @@ const ViewAll = ({ imgList }) => {
     <Container
       sx={{
         bgcolor: 'background.paper',
-        boxShadow: 1,
+        boxShadow: 3,
         mt: 2,
         mx: 0,
         borderRadius: 2,
         p: 3,
       }}
-      width="auto"
+      maxWidth="100%"
     >
       <Typography variant="subtitle1">All Images in DB:</Typography>
       <Box>
         {imgList.length === 0 ? (
           <div>no imgs</div>
         ) : (
-          <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+          <ImageList
+            sx={{ width: '100%', height: '20%', rowHeight: '5%' }}
+            cols={5}
+          >
             {imgList.map((item) => (
               <ImageListItem key={item._id}>
                 <img

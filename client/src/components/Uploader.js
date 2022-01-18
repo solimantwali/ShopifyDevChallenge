@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Container, Box, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { DropzoneDialog } from 'material-ui-dropzone';
+import { DropzoneArea, DropzoneDialog } from 'material-ui-dropzone';
+import { red, blue, green } from '@mui/material/colors';
 import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
@@ -39,7 +40,6 @@ const Uploader = ({ refresh }) => {
 
     axios
       .post('api/image/upload', fd, {
-        headers: { 'Content-Type': 'multipart/form-data' },
         onUploadProgress: (progressEvent) => {
           setProgress((progressEvent.loaded / progressEvent.total) * 100);
           console.log(
@@ -76,12 +76,15 @@ const Uploader = ({ refresh }) => {
   return (
     <Container
       sx={{
-        bgcolor: 'background.paper',
+        bgcolor: 'primary.light',
         boxShadow: 1,
         mt: 2,
         mx: 0,
         borderRadius: 2,
         p: 3,
+        '&:hover': {
+          bgcolor: blue[100],
+        },
       }}
       maxWidth="100%"
     >

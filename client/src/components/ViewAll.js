@@ -33,7 +33,7 @@ const ViewAll = ({ imgList }) => {
       }}
       maxWidth="100%"
     >
-      <Typography variant="subtitle1">All Images in DB:</Typography>
+      <Typography variant="h6">Browse All</Typography>
       <Box sx={{ minHeight: '1000px' }}>
         {imgList.length === 0 ? (
           <div>no imgs</div>

@@ -13,18 +13,19 @@ const Welcome = () => {
         borderRadius: 2,
         p: 2,
         '&:hover': {
-          bgcolor: blue[100],
+          bgcolor: '#CCE8CC',
         },
       }}
       maxWidth="100%"
     >
-      <Typography variant="subtitle1">
-        Welcome to my image repository!
+      <Typography variant="h4" sx={{ mb: 1 }}>
+        Welcome!
       </Typography>
       <Typography variant="body1">
-        All the images currently stored in the database can be viewed below.
-        Click the "Add/Delete" button for bulk adding/deleting options. Click
-        the "Search" button for a more advanced search.
+        Feel free to take a look around :) All the images currently stored in
+        the database can be viewed below. Click the "Add/Delete" button for bulk
+        adding/deleting options. Click the "Search" button for a more advanced
+        search.
       </Typography>
     </Container>
   );

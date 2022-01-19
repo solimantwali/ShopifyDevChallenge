@@ -17,11 +17,11 @@ const theme = createTheme({
   palette: {
     type: 'light',
     primary: {
-      light: blue[50],
-      main: blue[500],
+      light: '#FAF9F7',
+      main: '#007F61',
     },
     secondary: {
-      main: green[600],
+      main: '#FC534C',
     },
   },
 });

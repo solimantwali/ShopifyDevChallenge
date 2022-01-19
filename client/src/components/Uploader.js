@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Container, Box, Typography, Stack } from '@mui/material';
+import {
+  Button,
+  Container,
+  Box,
+  Typography,
+  Stack,
+  ImageList,
+  ImageListItem,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { DropzoneArea, DropzoneDialog } from 'material-ui-dropzone';
 import { red, blue, green, grey } from '@mui/material/colors';
@@ -32,6 +40,27 @@ const Uploader = ({ refresh }) => {
   const [imageId, setImageId] = useState(null);
   const [currentlyUploading, setCurrentlyUploading] = useState(false);
   const [myimgList, setMyImgList] = useState([]);
+  const [toUpload, setToUpload] = useState(null);
+
+  const handleAllFiles = (files) => {
+    if (files) {
+      console.log('files are:', files);
+      console.log('length:', files.length);
+      setToUpload(files);
+    }
+  };
+
+  const submitMultiple = (files) => {
+    if (files) {
+      Array.from(files).forEach((file) => {
+        handleSubmit([file]);
+      });
+      // for (let i = 0; i < files.length; i++) {
+      //   handleSubmit([files[i]]);
+      // }
+      setToUpload(null);
+    }
+  };
 
   const handleFile = ([file]) => {
     //console.log('handleFile below:');
@@ -52,6 +81,7 @@ const Uploader = ({ refresh }) => {
   //     setImageFile(e.target.files);
   //   }
   // };
+
   const handleDelete = () => setImageFile(null);
   const fileList = document.getElementById('fileList');
   const handleSubmit = ([file]) => {
@@ -70,13 +100,13 @@ const Uploader = ({ refresh }) => {
         },
       })
       .then(({ data }) => {
-        console.log('data:', data);
+        updateList();
+        //console.log('data:', data);
         setImageId(data);
         setImageFile(null);
         setCurrentlyUploading(false);
         setShow(false);
         setProgress(0);
-        updateList();
       })
       .catch((err) => {
         if (err.response.status === 400) {
@@ -107,14 +137,14 @@ const Uploader = ({ refresh }) => {
         borderRadius: 2,
         p: 3,
         '&:hover': {
-          bgcolor: blue[100],
+          bgcolor: '#CCE8CC',
         },
       }}
       maxWidth="100%"
     >
       <Box>
-        <Typography variant="body1" sx={{ mb: 2 }}>
-          Click button below to upload an image(s)
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          Upload Image(s)
         </Typography>
       </Box>
 
@@ -133,9 +163,12 @@ const Uploader = ({ refresh }) => {
               // let fileArr = [];
               // fileArr.push(e.target.files[0]);
               // console.log(fileArr.length);
-              handleFile(e.target.files);
+
+              handleAllFiles(e.target.files);
+              //handleFile(e.target.files);
+
               // setImageFile(e.target.files[0]);
-              console.log(imageFile);
+              //console.log(imageFile);
             }}
           />
 
@@ -160,14 +193,21 @@ const Uploader = ({ refresh }) => {
                     borderRadius: 2,
                     p: 3,
                     border: 2,
-                    borderColor: 'secondary.main',
+                    borderColor: 'primary.main',
                   }}
                 >
-                  {imageFile ? (
-                    <Box>
-                      <img height={200} src={URL.createObjectURL(imageFile)} />
-                      <Typography>{imageFile.name}</Typography>
-                    </Box>
+                  {toUpload ? (
+                    <ImageList
+                      sx={{ width: '100%', height: '20%', rowHeight: '5%' }}
+                      cols={5}
+                    >
+                      {Array.from(toUpload).map((item) => (
+                        <ImageListItem key={item.name}>
+                          <img src={URL.createObjectURL(item)} loading="lazy" />
+                          <Typography>{item.name}</Typography>
+                        </ImageListItem>
+                      ))}
+                    </ImageList>
                   ) : (
                     <Typography color={grey[500]}>
                       Click the button above, inside this field, or drag file(s)
@@ -180,63 +220,7 @@ const Uploader = ({ refresh }) => {
           )}
         </Dropzone>
       </div>
-      {/* shitty version here */}
-      {/* <Button
-        variant="outlined"
-        color="secondary"
-        onClick={() => setShow(true)}
-      >
-        Select File
-      </Button>
-      <DropzoneDialog
-        open={show}
-        onChange={handleFile}
-        onClose={() => setShow(false)}
-        onDelete={handleDelete}
-        acceptedFiles={['image/jpeg', 'image/png']}
-        maxFileSize={5000000}
-        filesLimit={1}
-        showFileNamesInPreview={true}
-        showFileNames={true}
-        dropzoneText={'Drag and drop file here or click icon to browse:'}
-        getFileAddedMessage={() => 'file added!'}
-        getFileRemovedMessage={() => 'file removed!'}
-        onAlert={(alert) => console.log({ alert })}
-        getFileLimitExceedMessage={() => 'file is too big'}
-        getDropRejectMessage={(file) => {
-          if (file.size > 5000000) return 'file is too big';
-          else return 'invalid file type';
-        }}
-        onSave={handleSubmit}
-      /> */}
-      {/* <Box
-        height={200}
-        sx={{
-          bgcolor: 'background.paper',
-          boxShadow: 1,
-          mt: 2,
-          mx: 0,
-          borderRadius: 2,
-          p: 3,
-          border: 3,
-          borderColor: 'primary.main',
-        }}
-      >
-        {imageId ? (
-          <div>
-            <img
-              src={`api/image/imageCall/${imageId}`}
-              alt="Sample Text"
-              height={200}
-            />
-            <a href={`api/image/imageCall/${imageId}`} target="_blank">
-              link
-            </a>
-          </div>
-        ) : (
-          <Typography variant="body1">no picture uploaded yet</Typography>
-        )}
-      </Box> */}
+
       <Box sx={{ flexGrow: 1 }} display="flex" alignItems="center">
         <Typography
           float="left"
@@ -258,7 +242,8 @@ const Uploader = ({ refresh }) => {
           type="submit"
           onClick={(e) => {
             // console.log(e.target.files);
-            handleSubmit([imageFile]);
+            //handleSubmit([imageFile]);
+            submitMultiple(toUpload);
           }}
         >
           Submit
@@ -317,4 +302,68 @@ export default Uploader;
   onSave={handleSubmit}
 />
 </div> */
+}
+
+{
+  /* shitty version here */
+}
+{
+  /* <Button
+        variant="outlined"
+        color="secondary"
+        onClick={() => setShow(true)}
+      >
+        Select File
+      </Button>
+      <DropzoneDialog
+        open={show}
+        onChange={handleFile}
+        onClose={() => setShow(false)}
+        onDelete={handleDelete}
+        acceptedFiles={['image/jpeg', 'image/png']}
+        maxFileSize={5000000}
+        filesLimit={1}
+        showFileNamesInPreview={true}
+        showFileNames={true}
+        dropzoneText={'Drag and drop file here or click icon to browse:'}
+        getFileAddedMessage={() => 'file added!'}
+        getFileRemovedMessage={() => 'file removed!'}
+        onAlert={(alert) => console.log({ alert })}
+        getFileLimitExceedMessage={() => 'file is too big'}
+        getDropRejectMessage={(file) => {
+          if (file.size > 5000000) return 'file is too big';
+          else return 'invalid file type';
+        }}
+        onSave={handleSubmit}
+      /> */
+}
+{
+  /* <Box
+        height={200}
+        sx={{
+          bgcolor: 'background.paper',
+          boxShadow: 1,
+          mt: 2,
+          mx: 0,
+          borderRadius: 2,
+          p: 3,
+          border: 3,
+          borderColor: 'primary.main',
+        }}
+      >
+        {imageId ? (
+          <div>
+            <img
+              src={`api/image/imageCall/${imageId}`}
+              alt="Sample Text"
+              height={200}
+            />
+            <a href={`api/image/imageCall/${imageId}`} target="_blank">
+              link
+            </a>
+          </div>
+        ) : (
+          <Typography variant="body1">no picture uploaded yet</Typography>
+        )}
+      </Box> */
 }

@@ -7,6 +7,7 @@ import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import ViewAll from './ViewAll';
+import Dropzone from 'react-dropzone';
 
 const Input = styled('input')({
   display: 'none',
@@ -123,7 +124,7 @@ const Uploader = ({ refresh }) => {
             id="contained-button-file"
             multiple
             type="file"
-            onChange={async (e) => {
+            onChange={(e) => {
               console.log('e.target.files', e.target.files);
               // const a = e.target.files[0].name;
               // console.log('a', a);
@@ -131,11 +132,12 @@ const Uploader = ({ refresh }) => {
               // let fileArr = [];
               // fileArr.push(e.target.files[0]);
               // console.log(fileArr.length);
-              await handleFile(e.target.files);
+              handleFile(e.target.files);
               // setImageFile(e.target.files[0]);
               console.log(imageFile);
             }}
           />
+
           <Button variant="outlined" component="span">
             Select A File
           </Button>
@@ -143,24 +145,35 @@ const Uploader = ({ refresh }) => {
       </Stack>
 
       <div>
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            boxShadow: 1,
-            mt: 2,
-            mx: 0,
-            borderRadius: 2,
-            p: 3,
-            border: 3,
-            borderColor: 'primary.main',
-          }}
-        >
-          {imageFile ? (
-            <img height={200} src={URL.createObjectURL(imageFile)} />
-          ) : (
-            'no images uploaded'
+        <Dropzone onDrop={(acceptedFiles) => handleFile(acceptedFiles)}>
+          {({ getRootProps, getInputProps, isDragActive }) => (
+            <section>
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <Box
+                  sx={{
+                    bgcolor: 'background.paper',
+                    boxShadow: 1,
+                    mt: 2,
+                    mx: 0,
+                    borderRadius: 2,
+                    p: 3,
+                    border: 3,
+                    borderColor: 'primary.main',
+                  }}
+                >
+                  {imageFile ? (
+                    <img height={200} src={URL.createObjectURL(imageFile)} />
+                  ) : (
+                    <Typography>
+                      Click the button above or drag files here ...
+                    </Typography>
+                  )}
+                </Box>
+              </div>
+            </section>
           )}
-        </Box>
+        </Dropzone>
       </div>
       {/* shitty version here */}
       {/* <Button
@@ -219,20 +232,30 @@ const Uploader = ({ refresh }) => {
           <Typography variant="body1">no picture uploaded yet</Typography>
         )}
       </Box> */}
-      <Button
-        variant="contained"
-        color="secondary"
-        sx={{
-          mt: 3,
-        }}
-        type="submit"
-        onClick={(e) => {
-          // console.log(e.target.files);
-          handleSubmit([imageFile]);
-        }}
-      >
-        Submit
-      </Button>
+      <Box display="flex" alignItems="center">
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{
+            mt: 3,
+            mr: 3,
+          }}
+          type="submit"
+          onClick={(e) => {
+            // console.log(e.target.files);
+            handleSubmit([imageFile]);
+          }}
+        >
+          Submit
+        </Button>
+        <Typography
+          sx={{
+            mt: 3,
+          }}
+        >
+          {imageFile ? progress : <Typography>lol</Typography>}
+        </Typography>
+      </Box>
 
       {/* <ViewAll imgList={myimgList} /> */}
     </Container>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Container, Box, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { DropzoneArea, DropzoneDialog } from 'material-ui-dropzone';
-import { red, blue, green } from '@mui/material/colors';
+import { red, blue, green, grey } from '@mui/material/colors';
 import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
@@ -28,7 +28,7 @@ const Uploader = ({ refresh }) => {
   //const classes = useStyles();
   const [show, setShow] = useState(false);
   const [imageFile, setImageFile] = useState(null);
-  const [progress, setProgress] = useState(null);
+  const [progress, setProgress] = useState(0);
   const [imageId, setImageId] = useState(null);
   const [currentlyUploading, setCurrentlyUploading] = useState(false);
   const [myimgList, setMyImgList] = useState([]);
@@ -75,6 +75,7 @@ const Uploader = ({ refresh }) => {
         setImageFile(null);
         setCurrentlyUploading(false);
         setShow(false);
+        setProgress(0);
         updateList();
       })
       .catch((err) => {
@@ -112,7 +113,7 @@ const Uploader = ({ refresh }) => {
       maxWidth="100%"
     >
       <Box>
-        <Typography variant="body1" gutterBottom>
+        <Typography variant="body1" sx={{ mb: 2 }}>
           Click button below to upload an image(s)
         </Typography>
       </Box>
@@ -138,8 +139,8 @@ const Uploader = ({ refresh }) => {
             }}
           />
 
-          <Button variant="outlined" component="span">
-            Select A File
+          <Button variant="outlined" component="span" sx={{ mb: 1 }}>
+            Select File(s)
           </Button>
         </label>
       </Stack>
@@ -158,15 +159,19 @@ const Uploader = ({ refresh }) => {
                     mx: 0,
                     borderRadius: 2,
                     p: 3,
-                    border: 3,
-                    borderColor: 'primary.main',
+                    border: 2,
+                    borderColor: 'secondary.main',
                   }}
                 >
                   {imageFile ? (
-                    <img height={200} src={URL.createObjectURL(imageFile)} />
+                    <Box>
+                      <img height={200} src={URL.createObjectURL(imageFile)} />
+                      <Typography>{imageFile.name}</Typography>
+                    </Box>
                   ) : (
-                    <Typography>
-                      Click the button above or drag files here ...
+                    <Typography color={grey[500]}>
+                      Click the button above, inside this field, or drag file(s)
+                      here ...
                     </Typography>
                   )}
                 </Box>
@@ -232,13 +237,23 @@ const Uploader = ({ refresh }) => {
           <Typography variant="body1">no picture uploaded yet</Typography>
         )}
       </Box> */}
-      <Box display="flex" alignItems="center">
+      <Box sx={{ flexGrow: 1 }} display="flex" alignItems="center">
+        <Typography
+          float="left"
+          sx={{
+            mt: 3,
+            flexGrow: 1,
+          }}
+        >
+          {imageFile
+            ? 'Uploading ' + imageFile.name + ': ' + progress + '%'
+            : ''}
+        </Typography>
         <Button
           variant="contained"
           color="secondary"
           sx={{
             mt: 3,
-            mr: 3,
           }}
           type="submit"
           onClick={(e) => {
@@ -248,13 +263,6 @@ const Uploader = ({ refresh }) => {
         >
           Submit
         </Button>
-        <Typography
-          sx={{
-            mt: 3,
-          }}
-        >
-          {imageFile ? progress : <Typography>lol</Typography>}
-        </Typography>
       </Box>
 
       {/* <ViewAll imgList={myimgList} /> */}

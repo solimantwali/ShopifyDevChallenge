@@ -53,12 +53,15 @@ const Uploader = ({ refresh }) => {
   const submitMultiple = (files) => {
     if (files) {
       Array.from(files).forEach((file) => {
+        setImageFile(file);
         handleSubmit([file]);
       });
       // for (let i = 0; i < files.length; i++) {
       //   handleSubmit([files[i]]);
       // }
       setToUpload(null);
+      document.getElementById('contained-button-file').value = '';
+      setImageFile(null);
     }
   };
 
@@ -83,7 +86,7 @@ const Uploader = ({ refresh }) => {
   // };
 
   const handleDelete = () => setImageFile(null);
-  const fileList = document.getElementById('fileList');
+  //const fileList = document.getElementById('fileList');
   const handleSubmit = ([file]) => {
     console.log('hi', file);
     const fd = new FormData();
@@ -165,6 +168,7 @@ const Uploader = ({ refresh }) => {
               // console.log(fileArr.length);
 
               handleAllFiles(e.target.files);
+              e.value = null;
               //handleFile(e.target.files);
 
               // setImageFile(e.target.files[0]);
@@ -203,7 +207,11 @@ const Uploader = ({ refresh }) => {
                     >
                       {Array.from(toUpload).map((item) => (
                         <ImageListItem key={item.name}>
-                          <img src={URL.createObjectURL(item)} loading="lazy" />
+                          <img
+                            src={URL.createObjectURL(item)}
+                            loading="lazy"
+                            onLoad={URL.revokeObjectURL(item)}
+                          />
                           <Typography>{item.name}</Typography>
                         </ImageListItem>
                       ))}
@@ -243,6 +251,7 @@ const Uploader = ({ refresh }) => {
           onClick={(e) => {
             // console.log(e.target.files);
             //handleSubmit([imageFile]);
+
             submitMultiple(toUpload);
           }}
         >

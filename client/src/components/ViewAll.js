@@ -6,9 +6,15 @@ import {
   Typography,
   ImageList,
   ImageListItem,
+  ImageListItemBar,
+  Chip,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { red, blue, green, grey } from '@mui/material/colors';
+import { withStyles } from '@mui/styles';
 import axios from 'axios';
+import IconButton from '@mui/material/IconButton';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 
 const ViewAll = ({ imgList }) => {
   // const [imgList, setImgList] = useState([]);
@@ -57,17 +63,48 @@ const ViewAll = ({ imgList }) => {
                 width: '100%',
                 height: 800,
                 mx: 'auto',
-
+                my: 0,
+                transform: 'translateZ(0)',
                 rowHeight: '5%',
               }}
               cols={5}
             >
               {imgList.map((item) => (
-                <ImageListItem key={item._id}>
+                <ImageListItem
+                  key={item._id}
+                  sx={{
+                    '&:hover': {
+                      '& .daChild': {
+                        visibility: 'visible',
+                      },
+                    },
+                  }}
+                >
                   <img
                     src={`api/image/imageCall/${item._id}?w=164&h=164&fit=crop&auto=format`}
-                    alt={item.fileName}
+                    alt={item.metadata.ogName}
                     loading="lazy"
+                  />
+
+                  <ImageListItemBar
+                    className="daChild"
+                    sx={{
+                      visibility: 'hidden',
+                      background:
+                        'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+                        'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                    }}
+                    title={item.metadata.ogName}
+                    position="top"
+                    actionIcon={
+                      <IconButton
+                        sx={{ color: 'white' }}
+                        aria-label={`star ${item.title}`}
+                      >
+                        <DeleteForeverRoundedIcon />
+                      </IconButton>
+                    }
+                    actionPosition="right"
                   />
                 </ImageListItem>
               ))}

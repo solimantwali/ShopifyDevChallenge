@@ -183,7 +183,7 @@ const Uploader = ({ refresh }) => {
       </Stack>
 
       <div>
-        <Dropzone onDrop={(acceptedFiles) => handleFile(acceptedFiles)}>
+        <Dropzone onDrop={(acceptedFiles) => handleAllFiles(acceptedFiles)}>
           {({ getRootProps, getInputProps, isDragActive }) => (
             <section>
               <div {...getRootProps()}>
@@ -243,7 +243,7 @@ const Uploader = ({ refresh }) => {
         </Typography>
         <Button
           variant="contained"
-          color="secondary"
+          color="primary"
           sx={{
             mt: 3,
           }}
@@ -255,7 +255,7 @@ const Uploader = ({ refresh }) => {
             submitMultiple(toUpload);
           }}
         >
-          Submit
+          Upload
         </Button>
       </Box>
 

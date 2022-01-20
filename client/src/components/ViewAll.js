@@ -24,34 +24,55 @@ const ViewAll = ({ imgList }) => {
   return (
     <Container
       sx={{
-        bgcolor: 'background.paper',
-        boxShadow: 3,
+        bgcolor: 'primary.light',
+        boxShadow: 1,
         mt: 2,
         mx: 0,
         borderRadius: 2,
         p: 3,
+        '&:hover': {
+          bgcolor: '#CCE8CC',
+        },
       }}
       maxWidth="100%"
     >
       <Typography variant="h6">Browse All</Typography>
-      <Box sx={{ minHeight: '1000px' }}>
+      <Box alignItems="center">
         {imgList.length === 0 ? (
-          <div>no imgs</div>
+          <Typography>no imgs</Typography>
         ) : (
-          <ImageList
-            sx={{ width: '100%', height: '20%', rowHeight: '5%' }}
-            cols={5}
+          <Container
+            sx={{
+              bgcolor: 'primary.light',
+              boxShadow: 0,
+              mt: 3,
+              mx: 'auto',
+              borderRadius: 2,
+              p: 3,
+              maxWidth: '80%',
+            }}
           >
-            {imgList.map((item) => (
-              <ImageListItem key={item._id}>
-                <img
-                  src={`api/image/imageCall/${item._id}?w=164&h=164&fit=crop&auto=format`}
-                  alt={item.fileName}
-                  loading="lazy"
-                />
-              </ImageListItem>
-            ))}
-          </ImageList>
+            <ImageList
+              sx={{
+                width: '100%',
+                height: 800,
+                mx: 'auto',
+
+                rowHeight: '5%',
+              }}
+              cols={5}
+            >
+              {imgList.map((item) => (
+                <ImageListItem key={item._id}>
+                  <img
+                    src={`api/image/imageCall/${item._id}?w=164&h=164&fit=crop&auto=format`}
+                    alt={item.fileName}
+                    loading="lazy"
+                  />
+                </ImageListItem>
+              ))}
+            </ImageList>
+          </Container>
         )}
       </Box>
     </Container>

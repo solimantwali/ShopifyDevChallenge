@@ -8,7 +8,8 @@ const path = require('path');
 const { Stream } = require('stream');
 require('dotenv').config();
 
-const mongo_URI = process.env.MONGO_URI;
+const mongo_URI =
+  'mongodb+srv://solimantwali:S01iman811@cluster0.o4p2y.mongodb.net/DevChallengeDB?retryWrites=true&w=majority';
 const conn = mongoose.createConnection(mongo_URI);
 
 // gfs acts like a mongoose model
@@ -120,7 +121,7 @@ const deleteImage = (id) => {
 
 // GET route for frontend to access images with
 router.get('/imageCall/:id', ({ params: { id } }, res) => {
-  console.log(id);
+  //console.log(id);
   // if no id return error
   if (!id || id === 'undefined') {
     console.log(!id);
@@ -141,11 +142,11 @@ router.get('/imageCall/:id', ({ params: { id } }, res) => {
 
 // get all images
 router.get('/all', async (req, res) => {
-  console.log('bro');
+  //console.log('bro');
   const cursor = gridfsBucket.find({});
 
   const allValues = await cursor.toArray();
-  console.log(allValues);
+  //console.log(allValues);
   // Files exist
   return res.json(allValues);
 });

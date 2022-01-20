@@ -9,7 +9,7 @@ require('dotenv').config();
 const imageRoutes = require('./routes/image');
 
 const app = express();
-const port = process.env.PORT;
+const port = 8000;
 
 // middleware
 app.use(cors());
@@ -20,7 +20,8 @@ app.use('/api/image', imageRoutes);
 
 // env variables
 
-const mongo_URI = process.env.MONGO_URI;
+const mongo_URI =
+  'mongodb+srv://solimantwali:S01iman811@cluster0.o4p2y.mongodb.net/DevChallengeDB?retryWrites=true&w=majority';
 
 // if (process.env.NODE_ENV === "production") {
 //   app.use(express.static("client/build"));

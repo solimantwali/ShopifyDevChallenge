@@ -22,10 +22,9 @@ const Welcome = () => {
         Welcome!
       </Typography>
       <Typography variant="body1">
-        Feel free to take a look around :) All the images currently stored in
-        the database can be viewed below. Click the "Add/Delete" button for bulk
-        adding/deleting options. Click the "Search" button for a more advanced
-        search.
+        Feel free to take a look around :) Use the "Upload Image(s)" panel to
+        upload one or many images to the database. You can view all the images
+        currently stored in the "Browse All" panel.
       </Typography>
     </Container>
   );

@@ -30,7 +30,7 @@ const NavBar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Shopify Developer Intern Challenge 2022
           </Typography>
-          <Box sx={{ flexGrow: 1 }}>
+          {/* <Box sx={{ flexGrow: 1 }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -44,7 +44,7 @@ const NavBar = () => {
                 {page}
               </Button>
             ))}
-          </Box>
+          </Box> */}
 
           <Typography variant="subtitle1">Soliman Ali</Typography>
         </Toolbar>

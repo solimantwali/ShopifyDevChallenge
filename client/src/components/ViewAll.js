@@ -27,6 +27,14 @@ const ViewAll = ({ imgList }) => {
   //   });
   // }, []);
 
+  const handleDelete = (file) => {
+    //console.log(file);
+    //const fd = new FormData();
+    // fd.append('image', file, file.name);
+    //axios.delete('api/image/delete', { headers: {} }, { data: { file } });
+    console.log('delete coming soon ...');
+  };
+
   return (
     <Container
       sx={{
@@ -100,6 +108,7 @@ const ViewAll = ({ imgList }) => {
                       <IconButton
                         sx={{ color: 'white' }}
                         aria-label={`star ${item.title}`}
+                        onClick={() => handleDelete([item])}
                       >
                         <DeleteForeverRoundedIcon />
                       </IconButton>

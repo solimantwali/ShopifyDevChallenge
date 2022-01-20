@@ -108,8 +108,17 @@ router.post('/upload/', uploadMiddleware, async (req, res) => {
   return res.send(file.id);
 });
 
+router.delete('/delete/', (req, res) => {
+  console.log(req.params);
+  const { file } = data;
+  const { id } = file;
+  deleteImage(id);
+  return res.send('file deleted');
+});
+
 // delete image helper function
 const deleteImage = (id) => {
+  console.log('yo');
   // check if argument
   if (!id || id === 'undefined') return res.status(400).send('no image id');
   // make mongoose ObjectId from the given id

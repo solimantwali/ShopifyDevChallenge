@@ -1,6 +1,7 @@
 # Shopify Developer Intern Challenge
 
 Image Repository for Shopify Developer Intern Challenge 2022
+
 By Soliman Ali
 
 # How to use
@@ -13,4 +14,11 @@ By Soliman Ali
 
 # Features
 
-- This
+- Drag 'n' drop or click "Select File(s)" button to choose 1 or more images to upload
+- Preview selected images to upload before submitting
+- View images in dynamically refreshing list of all images below
+- Hover over features in image list to display image name
+
+# About
+
+- This project was built with a MERN stack. I used MongoDB's GridFS specification for storing and retrieving the images, which functions like a MongoDB model.
